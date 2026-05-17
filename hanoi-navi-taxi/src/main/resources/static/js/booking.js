@@ -7,7 +7,7 @@ let bookingDirectionsService;
 let bookingDirectionsRenderer;
 let bookingRouteData = null;
 let bookingVehicle = null;
-let selectedCouponDiscount = 10;
+let selectedCouponDiscount = 0;
 let driverMarker = null;
 let bookingPageInitialized = false;
 
@@ -141,10 +141,15 @@ function hydrateBookingDetails() {
     const trackingPickup = document.getElementById('trackingPickup');
     const trackingDestination = document.getElementById('trackingDestination');
 
-    if (pickup) pickup.value = bookingRouteData.pickupAddress || '';
-    if (destination) destination.value = bookingRouteData.destinationAddress || '';
+    if (pickup) setElementValueOrText(pickup, bookingRouteData.pickupAddress || '');
+    if (destination) setElementValueOrText(destination, bookingRouteData.destinationAddress || '');
     if (trackingPickup) trackingPickup.textContent = bookingRouteData.pickupAddress || '--';
     if (trackingDestination) trackingDestination.textContent = bookingRouteData.destinationAddress || '--';
+
+    const distance = document.getElementById('bookingDistance');
+    const duration = document.getElementById('bookingDuration');
+    if (distance) distance.textContent = formatDistance(bookingRouteData.distanceKm);
+    if (duration) duration.textContent = formatDuration(bookingRouteData.durationMin);
 
     bookingVehicle = {
         type: bookingRouteData.vehicleType,
@@ -235,6 +240,9 @@ function updateFareDisplay() {
     if (discountedFare) discountedFare.textContent = discountedText;
     if (originalFare) originalFare.textContent = originalText;
     if (finalFare) finalFare.textContent = discountedText;
+
+    const trackingFare = document.getElementById('trackingFare');
+    if (trackingFare) trackingFare.textContent = discountedText;
 }
 
 function updateVehicleInfoText() {
@@ -242,9 +250,11 @@ function updateVehicleInfoText() {
     const vehicleName = BOOKING_VEHICLE_NAMES[bookingVehicle?.type]?.[lang] || '--';
     const driverVehicleInfo = document.getElementById('driverVehicleInfo');
     const trackingVehicleInfo = document.getElementById('trackingVehicleInfo');
+    const bookingVehicleInfo = document.getElementById('bookingVehicle');
 
     if (driverVehicleInfo) driverVehicleInfo.textContent = vehicleName;
     if (trackingVehicleInfo) trackingVehicleInfo.textContent = vehicleName;
+    if (bookingVehicleInfo) bookingVehicleInfo.textContent = vehicleName;
 }
 
 function showBookingStep(step) {
@@ -362,6 +372,23 @@ function handleBookingMapLoadError() {
         'Google Mapsを読み込めませんでした。APIキーとネットワーク設定を確認してください。',
         'Không thể tải Google Maps. Vui lòng kiểm tra API key và kết nối mạng.'
     ));
+}
+
+function setElementValueOrText(element, value) {
+    if ('value' in element) element.value = value;
+    else element.textContent = value;
+}
+
+function formatDistance(km) {
+    const value = Number(km || 0);
+    if (!value) return '--';
+    return `${value.toFixed(value >= 10 ? 0 : 1)} km`;
+}
+
+function formatDuration(minutes) {
+    const value = Math.round(Number(minutes || 0));
+    if (!value) return '--';
+    return `${value} min`;
 }
 
 function formatVnd(value) {
