@@ -7,103 +7,125 @@
     <title>予約する / Đặt xe - ハノイ・ナビタクシー</title>
     <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
 </head>
-<body class="landing-body">
+<body class="landing-body booking-body">
 
-    <!-- Navbar -->
-    <nav class="navbar landing-navbar" aria-label="メインナビゲーション">
-        <a class="navbar-brand landing-brand" href="/customer/home" aria-label="ハノイ・ナビタクシー ホーム">
-            <span class="brand-mark" aria-hidden="true">
-                <img src="../../static/images/car_icon.png" th:src="@{/images/car_icon.png}" alt="">
-            </span>
-        </a>
-    
-        <div class="landing-nav-links" aria-label="主要メニュー">
-            <a class="landing-nav-link" href="../../templates/customer/home.html" data-ja="ホーム" data-vi="Trang chủ">ホーム</a>
-            <a class="landing-nav-link active" href="../../templates/customer/booking.html" data-ja="予約する" data-vi="Đặt xe">予約する</a>
-            <a class="landing-nav-link" href="#history" data-ja="履歴" data-vi="Lịch sử">履歴</a>
-        </div>
-    
-        <div class="navbar-user landing-userbar">
-            <button class="notification-btn" type="button" aria-label="通知">
-                <img class="notification-icon" src="../../static/images/bell_icon.png" th:src="@{/images/bell_icon.png}" alt="" aria-hidden="true">
-                <span class="notification-dot" aria-hidden="true"></span>
-            </button>
-            <button class="profile-chip" type="button" aria-label="ユーザープロフィール">
-                <span class="navbar-avatar profile-avatar" id="userAvatar"></span>
-                <span class="navbar-username" id="userName" data-i18n-skip="true" data-ja="ユーザー名" data-vi="Tên người dùng">ユーザー名</span>
-                <span class="profile-chevron" aria-hidden="true">⌄</span>
-            </button>
-            <div class="lang-switcher landing-lang-switcher">
-                <button class="lang-btn active" data-lang="ja" onclick="switchLang('ja')">JA</button>
-                <button class="lang-btn" data-lang="vi" onclick="switchLang('vi')">VI</button>
-            </div>
-            <button class="btn btn-sm btn-outline landing-logout" onclick="logout()"
-                    data-ja="ログアウト" data-vi="Đăng xuất">ログアウト</button>
-        </div>
-    </nav>
+<!-- Navbar -->
+<nav class="navbar landing-navbar" aria-label="メインナビゲーション">
+    <a class="navbar-brand landing-brand" href="/customer/home" aria-label="ハノイ・ナビタクシー ホーム">
+        <span class="brand-mark" aria-hidden="true">
+            <img src="../../static/images/car_icon.png" th:src="@{/images/car_icon.png}" alt="">
+        </span>
+    </a>
 
-<div class="main-content">
-    <div class="map-container">
-        <div id="map"></div>
-
-        <!-- Booking Details Panel -->
-        <div class="search-panel glass-card" style="max-width: 420px;">
-            <h2>
-                <span>🚕</span>
-                <span data-ja="配車確認" data-vi="Xác nhận đặt xe">配車確認</span>
-            </h2>
-
-            <!-- Route Summary -->
-            <div style="margin-bottom: var(--space-lg);">
-                <div class="location-input-group" style="margin-bottom: var(--space-sm);">
-                    <div class="location-dot pickup"></div>
-                    <div class="form-input" id="bookingPickup" style="pointer-events: none; opacity: 0.8;">--</div>
-                </div>
-                <div style="margin-left: 1.28rem; height: 8px; border-left: 2px dashed var(--border-color);"></div>
-                <div class="location-input-group">
-                    <div class="location-dot destination"></div>
-                    <div class="form-input" id="bookingDestination" style="pointer-events: none; opacity: 0.8;">--</div>
-                </div>
-            </div>
-
-            <!-- Route Info -->
-            <div class="route-info">
-                <div class="route-info-item">
-                    <div class="route-info-value" id="bookingDistance">--</div>
-                    <div class="route-info-label" data-ja="距離" data-vi="Khoảng cách">距離</div>
-                </div>
-                <div class="route-info-item">
-                    <div class="route-info-value" id="bookingDuration">--</div>
-                    <div class="route-info-label" data-ja="所要時間" data-vi="Thời gian">所要時間</div>
-                </div>
-                <div class="route-info-item">
-                    <div class="route-info-value" id="bookingFare">--</div>
-                    <div class="route-info-label" data-ja="料金" data-vi="Giá cước">料金</div>
-                </div>
-            </div>
-
-            <!-- Selected Vehicle -->
-            <div style="margin-top: var(--space-lg); padding: var(--space-md); background: rgba(245,158,11,0.1); border-radius: var(--radius-md); border: 1px solid rgba(245,158,11,0.3);">
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;"
-                     data-ja="選択した車種" data-vi="Loại xe đã chọn">選択した車種</div>
-                <div style="font-weight: 700; font-size: 1.1rem;" id="bookingVehicle">--</div>
-            </div>
-
-            <!-- Confirm Button -->
-            <button class="btn btn-accent w-full mt-lg" onclick="submitBooking()" id="confirmBookingBtn">
-                <span>🚕</span>
-                <span data-ja="配車を確定する" data-vi="Xác nhận đặt xe">配車を確定する</span>
-            </button>
-
-            <button class="btn btn-outline w-full mt-md" onclick="window.location.href='/customer/home'"
-                    data-ja="キャンセル" data-vi="Hủy bỏ">キャンセル</button>
-        </div>
+    <div class="landing-nav-links" aria-label="主要メニュー">
+        <a class="landing-nav-link" href="../../templates/customer/home.html" data-ja="ホーム" data-vi="Trang chủ">ホーム</a>
+        <a class="landing-nav-link active" href="../../templates/customer/booking.html" data-ja="予約する" data-vi="Đặt xe">予約する</a>
+        <a class="landing-nav-link" href="#history" data-ja="履歴" data-vi="Lịch sử">履歴</a>
     </div>
-</div>
+
+    <div class="navbar-user landing-userbar">
+        <button class="notification-btn" type="button" aria-label="通知">
+            <img class="notification-icon" src="../../static/images/bell_icon.png" th:src="@{/images/bell_icon.png}" alt="" aria-hidden="true">
+            <span class="notification-dot" aria-hidden="true"></span>
+        </button>
+        <button class="profile-chip" type="button" aria-label="ユーザープロフィール">
+            <span class="navbar-avatar profile-avatar" id="userAvatar"></span>
+            <span class="navbar-username" id="userName" data-i18n-skip="true" data-ja="ユーザー名" data-vi="Tên người dùng">ユーザー名</span>
+            <span class="profile-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div class="lang-switcher landing-lang-switcher">
+            <button class="lang-btn active" data-lang="ja" onclick="switchLang('ja')">JA</button>
+            <button class="lang-btn" data-lang="vi" onclick="switchLang('vi')">VI</button>
+        </div>
+        <button class="btn btn-sm btn-outline landing-logout" onclick="logout()"
+                data-ja="ログアウト" data-vi="Đăng xuất">ログアウト</button>
+    </div>
+</nav>
+
+<main class="booking-main">
+    <div class="booking-shell" aria-label="予約確認">
+        <aside class="booking-sidebar" aria-live="polite">
+            <section class="booking-step is-active" data-step="request">
+                <h1 class="booking-title" data-ja="配車確認" data-vi="Xác nhận đặt xe">配車確認</h1>
+
+                <label class="booking-input-wrap" for="bookingPickup">
+                    <span class="sr-only" data-ja="出発地" data-vi="Điểm đi">出発地</span>
+                    <input id="bookingPickup" class="booking-pill-input" type="text" value="--" readonly>
+                </label>
+                <label class="booking-input-wrap" for="bookingDestination">
+                    <span class="sr-only" data-ja="目的地" data-vi="Điểm đến">目的地</span>
+                    <input id="bookingDestination" class="booking-pill-input" type="text" value="--" readonly>
+                </label>
+
+                <div class="route-info booking-route-info">
+                    <div class="route-info-item">
+                        <div class="route-info-value" id="bookingDistance">--</div>
+                        <div class="route-info-label" data-ja="距離" data-vi="Khoảng cách">距離</div>
+                    </div>
+                    <div class="route-info-item">
+                        <div class="route-info-value" id="bookingDuration">--</div>
+                        <div class="route-info-label" data-ja="所要時間" data-vi="Thời gian">所要時間</div>
+                    </div>
+                </div>
+
+                <h2 class="booking-section-title" data-ja="車種" data-vi="Loại xe">車種</h2>
+                <div class="booking-vehicle-list" id="bookingVehicleList"></div>
+
+                <div class="fare-box">
+                    <span class="fare-label" data-ja="料金" data-vi="Giá cước">料金</span>
+                    <strong id="finalFare">--</strong>
+                </div>
+
+                <button class="booking-primary-btn" onclick="submitBooking()" id="confirmBookingBtn" type="button">
+                    <span data-ja="配車を確定する" data-vi="Xác nhận đặt xe">配車を確定する</span>
+                </button>
+                <button class="booking-secondary-btn" onclick="cancelTracking()" type="button"
+                        data-ja="キャンセル" data-vi="Hủy bỏ">キャンセル</button>
+            </section>
+
+            <section class="booking-step" data-step="tracking">
+                <h1 class="booking-title tracking-title" data-ja="配車完了" data-vi="Đã đặt xe">配車完了</h1>
+                <div class="driver-avatar tracking-avatar" aria-hidden="true">🚕</div>
+                <h2 class="driver-profile-heading" data-ja="ドライバーを検索中" data-vi="Đang tìm tài xế">ドライバーを検索中</h2>
+
+                <dl class="driver-info-list">
+                    <div class="driver-info-row">
+                        <dt data-ja="車種" data-vi="Loại xe">車種</dt>
+                        <dd id="trackingVehicleInfo">--</dd>
+                    </div>
+                    <div class="driver-info-row">
+                        <dt data-ja="料金" data-vi="Giá cước">料金</dt>
+                        <dd id="trackingFare">--</dd>
+                    </div>
+                </dl>
+
+                <div class="tracking-route-box">
+                    <div class="tracking-address" id="trackingPickup">--</div>
+                    <div class="tracking-address" id="trackingDestination">--</div>
+                </div>
+
+                <div class="fare-box tracking-fare">
+                    <span class="fare-label" data-ja="確定料金" data-vi="Giá cuối cùng">確定料金</span>
+                    <strong id="discountedFare">--</strong>
+                    <del id="originalFare">--</del>
+                </div>
+
+                <button class="booking-secondary-btn" onclick="closeBookingOverlay()" type="button"
+                        data-ja="ホームへ戻る" data-vi="Về trang chủ">ホームへ戻る</button>
+            </section>
+        </aside>
+
+        <section class="booking-map-card" aria-label="ルート地図">
+            <div id="map" class="booking-map"></div>
+            <div id="bookingMapFallback" class="booking-map-fallback is-hidden"
+                 data-ja="地図を読み込み中です..." data-vi="Đang tải bản đồ...">地図を読み込み中です...</div>
+        </section>
+    </div>
+</main>
 
 <script th:src="@{/js/i18n.js}"></script>
-<script>
-    const GOOGLE_MAPS_API_KEY = '[[${@environment.getProperty("google.maps.api-key")}]]' || 'AIzaSyD9AOLzJarLIGW0b-eWq_JEVDf0IcmxE0U';
+<script th:inline="javascript">
+    const GOOGLE_MAPS_API_KEY = /*[[${@environment.getProperty('google.maps.api-key')}]]*/ '';
 </script>
 <script th:src="@{/js/booking.js}"></script>
 <script>
@@ -112,6 +134,7 @@
         script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initBookingMap`;
         script.async = true;
         script.defer = true;
+        script.onerror = handleBookingMapLoadError;
         document.head.appendChild(script);
     })();
 </script>

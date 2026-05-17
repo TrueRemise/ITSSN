@@ -471,7 +471,7 @@ a:hover {
     border: none;
     border-radius: var(--radius-full);
     background: transparent;
-    color: black
+    color: black;
     font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
@@ -652,6 +652,26 @@ a:hover {
     font-size: 0.75rem;
     color: var(--text-muted);
     margin-top: 2px;
+}
+
+
+.booking-route-info {
+    background: #fff;
+    border: 2px solid #111;
+    border-radius: 18px;
+    gap: 0.25rem;
+    margin: 0.6rem 0 0.2rem;
+    padding: 0.65rem 0.4rem;
+}
+
+.booking-route-info .route-info-value {
+    color: var(--landing-yellow-dark);
+    font-size: 1.05rem;
+}
+
+.booking-route-info .route-info-label {
+    color: #9a9a9a;
+    font-weight: 800;
 }
 
 /* --- Vehicle Type Cards --- */
@@ -1052,7 +1072,7 @@ body.auth-page::before {
 .auth-page .glass-card,
 .auth-page .auth-card {
     background: rgba(255, 255, 255, 0.94);
-    border: 3px solid var(--auth-line);
+    border: 3px solid #111;
     border-radius: 20px;
     box-shadow: 0 5px 0 rgba(0, 0, 0, 0.08), 0 20px 55px rgba(0, 0, 0, 0.10);
     backdrop-filter: none;
@@ -1667,24 +1687,27 @@ body.auth-page::before {
 .booking-main {
     min-height: 100vh;
     padding: 96px clamp(1rem, 5vw, 3.4rem) 1.4rem;
+    position: relative;
+    z-index: 1;
 }
 
 .booking-shell {
     display: grid;
-    grid-template-columns: minmax(220px, 224px) minmax(420px, 1fr);
-    gap: 0.65rem;
+    grid-template-columns: minmax(300px, 360px) minmax(420px, 1fr);
+    gap: clamp(0.85rem, 2vw, 1.35rem);
     align-items: stretch;
-    max-width: 700px;
-    min-height: 468px;
+    max-width: 1180px;
+    min-height: min(680px, calc(100vh - 120px));
+    margin: 0 auto;
 }
 
 .booking-sidebar {
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.94);
     border: 3px solid #111;
-    border-radius: 18px;
-    box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.16);
-    min-height: 458px;
-    padding: 0.5rem 0.65rem 0.9rem;
+    border-radius: 24px;
+    box-shadow: 7px 8px 0 rgba(0, 0, 0, 0.16), 0 20px 55px rgba(0, 0, 0, 0.10);
+    min-height: 100%;
+    padding: clamp(0.9rem, 2vw, 1.2rem);
 }
 
 .booking-step {
@@ -1709,8 +1732,8 @@ body.auth-page::before {
 }
 
 .booking-title {
-    font-size: 1.45rem;
-    margin: 0.35rem 0 0.6rem;
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    margin: 0.35rem 0 0.75rem;
 }
 
 .tracking-title {
@@ -1720,22 +1743,24 @@ body.auth-page::before {
 
 .booking-section-title {
     font-size: 1.3rem;
-    margin: 0.6rem 0 0.35rem;
+    margin: 0.75rem 0 0.45rem;
 }
 
 .booking-input-wrap {
     display: block;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
 }
 
 .booking-pill-input {
     width: 100%;
-    min-height: 39px;
-    padding: 0.45rem 0.85rem;
+    min-height: 44px;
+    padding: 0.55rem 0.95rem;
     border: 2px solid #111;
     border-radius: 999px;
     background: #fff4bc;
     color: #111;
+    font-family: var(--font-main);
+    font-size: 0.86rem;
     font-weight: 800;
     box-shadow: none;
 }
@@ -1748,22 +1773,25 @@ body.auth-page::before {
 .booking-vehicle-list {
     display: flex;
     flex-direction: column;
-    gap: 0.36rem;
+    gap: 0.46rem;
 }
 
 .booking-vehicle-option {
     background: rgba(255, 255, 255, 0.96);
     border: 2px solid #ff3838;
-    padding: 0.52rem 0.58rem;
+    border-radius: 16px;
+    font-family: var(--font-main);
+    padding: 0.62rem 0.7rem;
     text-align: left;
     cursor: pointer;
-    transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+    transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .booking-vehicle-option:hover,
 .booking-vehicle-option.is-selected {
     background: #fff7d1;
     border-color: #111;
+    box-shadow: 0 4px 0 rgba(242, 189, 0, 0.35);
     transform: translateY(-1px);
 }
 
@@ -1793,13 +1821,15 @@ body.auth-page::before {
 
 .booking-primary-btn,
 .booking-secondary-btn {
-    align-self: center;
+    align-self: stretch;
     border: none;
     border-radius: 999px;
     cursor: pointer;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
     font-weight: 900;
     min-width: 106px;
-    padding: 0.78rem 1.5rem;
+    padding: 0.82rem 1.5rem;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
 }
 
@@ -1814,7 +1844,7 @@ body.auth-page::before {
     background: #fff;
     border: 2px solid #111;
     color: #050505;
-    margin-top: auto;
+    margin-top: 0.55rem;
 }
 
 .booking-primary-btn:hover,
@@ -1915,12 +1945,13 @@ body.auth-page::before {
 }
 
 .fare-box {
+    background: rgba(255, 255, 255, 0.78);
     border: 2px solid #111;
-    border-radius: 16px;
+    border-radius: 18px;
     color: #111;
-    margin: 0.2rem 0 0.5rem;
-    min-height: 58px;
-    padding: 0.44rem 0.62rem;
+    margin: 0.65rem 0 0.65rem;
+    min-height: 64px;
+    padding: 0.55rem 0.72rem;
 }
 
 .fare-label {
@@ -1971,14 +2002,16 @@ body.auth-page::before {
 .booking-map-card {
     background: #eef5f9;
     border: 3px solid #ff3131;
-    min-height: 468px;
+    border-radius: 24px;
+    box-shadow: 7px 8px 0 rgba(255, 49, 49, 0.18), 0 20px 55px rgba(0, 0, 0, 0.10);
+    min-height: 100%;
     overflow: hidden;
     position: relative;
 }
 
 .booking-map {
     height: 100%;
-    min-height: 468px;
+    min-height: min(680px, calc(100vh - 120px));
     width: 100%;
 }
 
@@ -2009,8 +2042,8 @@ body.auth-page::before {
 
 @media (min-width: 1024px) {
     .booking-shell {
-        max-width: none;
-        grid-template-columns: 224px minmax(460px, 1fr);
+        max-width: 1180px;
+        grid-template-columns: minmax(300px, 360px) minmax(460px, 1fr);
     }
 }
 
@@ -2031,10 +2064,10 @@ body.auth-page::before {
     }
 }
 
-.search-panel .glass-card,
+.search-panel.glass-card,
 .auth-page .auth-card {
     background: rgba(255, 255, 255, 0.94);
-    border: 3px solid var(--auth-line);
+    border: 3px solid #111;
     border-radius: 20px;
     box-shadow: 0 5px 0 rgba(0, 0, 0, 0.08), 0 20px 55px rgba(0, 0, 0, 0.10);
     backdrop-filter: none;
