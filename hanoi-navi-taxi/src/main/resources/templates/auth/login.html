@@ -9,8 +9,19 @@
 </head>
 <body class="auth-page">
 
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ハノイ・ナビタクシー - ハノイで日本語対応タクシーを簡単予約 / Hanoi Navi-Taxi - Đặt taxi tiếng Nhật tại Hà Nội">
+    <title>ログイン / Đăng nhập - ハノイ・ナビタクシー</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
 <!-- Language Switcher / 言語切替 -->
-<div class="lang-switcher auth-lang-switcher">
+<div class="lang-switcher">
     <button class="lang-btn active" data-lang="ja" onclick="switchLang('ja')">🇯🇵 JA</button>
     <button class="lang-btn" data-lang="vi" onclick="switchLang('vi')">🇻🇳 VI</button>
 </div>
@@ -21,10 +32,10 @@
         <img src="../../static/images/car_icon.png" th:src="@{/images/car_icon.png}" alt="ハノイ ナビタクシー">
     </div>
 
-    <div class="auth-card glass-card">
+    <div class="auth-card glass-card auth-card-register">
         <div class="auth-heading">
-            <h1 data-ja="ようこそ!" data-vi="Chào mừng!">ようこそ!</h1>
-            <p data-ja="続行するにはログインしてください" data-vi="Vui lòng đăng nhập để tiếp tục">続行するにはログインしてください</p>
+            <h1 data-ja="ようこそ！" data-vi="Đăng nhập">ようこそ！</h1>
+            <p data-ja="続行するにはログインしてください" data-vi="Vui lòng đăng nhập">続行するにはログインしてください</p>
         </div>
 
         <!-- Alert Message -->
@@ -35,15 +46,13 @@
 
         <!-- Login Form -->
         <form id="loginForm" onsubmit="handleLogin(event)">
-            <!-- Username -->
+            <!-- Email -->
             <div class="form-group">
-                <label class="form-label" data-ja="ユーザー名" data-vi="Tên người dùng">ユーザー名</label>
-                <input type="email"
+                <label class="form-label" data-ja="メールアドレス" data-vi="Email">メールアドレス</label>
+                <input type="email" 
                        id="loginEmail"
-                       class="form-input"
-                       data-placeholder-ja="ユーザー名を入力してください..."
-                       data-placeholder-vi="Vui lòng nhập tên người dùng..."
-                       placeholder="ユーザー名を入力してください..."
+                       class="form-input" 
+                       placeholder="example@email.com"
                        required
                        autocomplete="email">
                 <div class="form-error" id="emailError"></div>
@@ -52,24 +61,24 @@
             <!-- Password -->
             <div class="form-group">
                 <label class="form-label" data-ja="パスワード" data-vi="Mật khẩu">パスワード</label>
-                <input type="password"
+                <input type="password" 
                        id="loginPassword"
-                       class="form-input"
-                       data-placeholder-ja="パスワードを入力してください..."
-                       data-placeholder-vi="Vui lòng nhập mật khẩu..."
-                       placeholder="パスワードを入力してください..."
+                       class="form-input" 
+                       data-placeholder-ja="パスワードを入力"
+                       data-placeholder-vi="Nhập mật khẩu"
+                       placeholder="パスワードを入力"
                        required
                        autocomplete="current-password">
                 <div class="form-error" id="passwordError"></div>
             </div>
 
             <!-- Remember + Forgot -->
-            <div class="flex-between auth-options mb-lg">
+            <div class="flex-between mb-lg">
                 <label class="checkbox-wrapper">
                     <input type="checkbox" id="rememberMe">
-                    <span class="checkbox-label" data-ja="ログイン状態を保持する" data-vi="Duy trì trạng thái đăng nhập">ログイン状態を保持する</span>
+                    <span class="checkbox-label" data-ja="ログイン情報を記憶" data-vi="Ghi nhớ đăng nhập">ログイン情報を記憶</span>
                 </label>
-                <a href="#" data-ja="パスワードをお忘れですか？" data-vi="Quên mật khẩu?">パスワードをお忘れですか？</a>
+                <a href="#" style="font-size: 0.85rem;" data-ja="パスワードをお忘れですか？" data-vi="Quên mật khẩu?">パスワードをお忘れですか？</a>
             </div>
 
             <!-- Submit Button -->
@@ -79,10 +88,16 @@
         </form>
 
         <!-- Register Link -->
-        <div class="auth-footer-link text-center">
-            <a href="/register"
-               data-ja="アカウントをお持ちでない方はこちら（新規登録）"
-               data-vi="Chưa có tài khoản? Đăng ký tại đây">アカウントをお持ちでない方はこちら（新規登録）</a>
+        <div class="divider">
+            <span data-ja="または" data-vi="hoặc">または</span>
+        </div>
+
+        <div class="text-center">
+            <span style="font-size: 0.9rem; color: var(--text-secondary);"
+                  data-ja="アカウントをお持ちでないですか？"
+                  data-vi="Chưa có tài khoản?">アカウントをお持ちでないですか？</span>
+            <a href="/register" style="font-weight: 600; margin-left: 4px;"
+               data-ja="新規登録" data-vi="Đăng ký mới">新規登録</a>
         </div>
     </div>
 </div>

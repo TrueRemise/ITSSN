@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="新規登録 - ハノイ・ナビタクシー / Đăng ký - Hanoi Navi-Taxi">
     <title>新規登録 / Đăng ký - ハノイ・ナビタクシー</title>
-    <link rel="stylesheet"  href="../../static/css/style.css"  th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../../static/css/style.css"  th:href="@{/css/style.css}">
 </head>
 <body class="auth-page">
 
 <!-- Language Switcher -->
-<div class="lang-switcher auth-lang-switcher">
+<div class="lang-switcher">
     <button class="lang-btn active" data-lang="ja" onclick="switchLang('ja')">🇯🇵 JA</button>
     <button class="lang-btn" data-lang="vi" onclick="switchLang('vi')">🇻🇳 VI</button>
 </div>
@@ -35,15 +35,16 @@
 
         <!-- Register Form -->
         <form id="registerForm" onsubmit="handleRegister(event)">
-            <!-- Username -->
+
+            <!-- Full Name -->
             <div class="form-group">
-                <label class="form-label" data-ja="ユーザー名" data-vi="Tên người dùng">ユーザー名</label>
-                <input type="text"
+                <label class="form-label" data-ja="お名前" data-vi="Họ và tên">お名前</label>
+                <input type="text" 
                        id="regFullName"
                        class="form-input"
-                       data-placeholder-ja="ユーザー名を入力してください"
-                       data-placeholder-vi="Vui lòng nhập tên người dùng"
-                       placeholder="ユーザー名を入力してください"
+                       data-placeholder-ja="フルネームを入力"
+                       data-placeholder-vi="Nhập họ và tên"
+                       placeholder="フルネームを入力"
                        required
                        minlength="2"
                        maxlength="100">
@@ -53,25 +54,34 @@
             <!-- Email -->
             <div class="form-group">
                 <label class="form-label" data-ja="メールアドレス" data-vi="Email">メールアドレス</label>
-                <input type="email"
+                <input type="email" 
                        id="regEmail"
                        class="form-input"
-                       data-placeholder-ja="メールアドレスを入力してください"
-                       data-placeholder-vi="Vui lòng nhập email"
-                       placeholder="メールアドレスを入力してください"
+                       placeholder="example@email.com"
                        required>
                 <div class="form-error" id="emailError"></div>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+                <label class="form-label" data-ja="電話番号" data-vi="Số điện thoại">電話番号</label>
+                <input type="tel" 
+                       id="regPhone"
+                       class="form-input"
+                       placeholder="0901234567"
+                       pattern="[0-9]{10,11}">
+                <div class="form-error" id="phoneError"></div>
             </div>
 
             <!-- Password -->
             <div class="form-group">
                 <label class="form-label" data-ja="パスワード" data-vi="Mật khẩu">パスワード</label>
-                <input type="password"
+                <input type="password" 
                        id="regPassword"
                        class="form-input"
-                       data-placeholder-ja="パスワードを入力してください"
-                       data-placeholder-vi="Vui lòng nhập mật khẩu"
-                       placeholder="パスワードを入力してください"
+                       data-placeholder-ja="8文字以上（大文字・小文字・数字・特殊文字）"
+                       data-placeholder-vi="Tối thiểu 8 ký tự (chữ hoa, thường, số, đặc biệt)"
+                       placeholder="8文字以上（大文字・小文字・数字・特殊文字）"
                        required
                        minlength="8">
                 <div class="form-error" id="passwordError"></div>
@@ -86,31 +96,73 @@
 
             <!-- Confirm Password -->
             <div class="form-group">
-                <label class="form-label" data-ja="パスワード（確認）" data-vi="Xác nhận mật khẩu">パスワード（確認）</label>
-                <input type="password"
+                <label class="form-label" data-ja="パスワード確認" data-vi="Xác nhận mật khẩu">パスワード確認</label>
+                <input type="password" 
                        id="regConfirmPassword"
                        class="form-input"
-                       data-placeholder-ja="パスワードを再入力してください"
-                       data-placeholder-vi="Vui lòng nhập lại mật khẩu"
-                       placeholder="パスワードを再入力してください"
+                       data-placeholder-ja="パスワードを再入力"
+                       data-placeholder-vi="Nhập lại mật khẩu"
+                       placeholder="パスワードを再入力"
                        required>
                 <div class="form-error" id="confirmError"></div>
             </div>
 
-            <input type="hidden" id="regPhone" value="">
-            <input type="hidden" id="regRole" value="CUSTOMER">
+            <!-- Role Selection -->
+            <div class="form-group">
+                <label class="form-label" data-ja="アカウントの種類" data-vi="Loại tài khoản">アカウントの種類</label>
+                <select id="regRole" class="form-select" required onchange="toggleDriverFields()">
+                    <option value="CUSTOMER" data-ja="お客様" data-vi="Khách hàng">お客様</option>
+                    <option value="DRIVER" data-ja="ドライバー" data-vi="Tài xế">ドライバー</option>
+                </select>
+            </div>
+
+            <!-- Driver-specific fields -->
+            <div id="driverFields" class="driver-fields">
+                <h3 style="margin-bottom: var(--space-md); font-size: 0.95rem;"
+                    data-ja="🇯🇵 ドライバー情報" data-vi="🇯🇵 Thông tin tài xế">🇯🇵 ドライバー情報</h3>
+
+                <!-- Japanese Level -->
+                <div class="form-group">
+                    <label class="form-label" data-ja="日本語能力" data-vi="Năng lực tiếng Nhật">日本語能力</label>
+                    <select id="regJapaneseLevel" class="form-select">
+                        <option value="">-- 選択 / Chọn --</option>
+                        <option value="N5">N5 - 初級 / Sơ cấp</option>
+                        <option value="N4">N4 - 初中級 / Sơ trung cấp</option>
+                        <option value="N3">N3 - 中級 / Trung cấp</option>
+                        <option value="N2">N2 - 中上級 / Trung cao cấp</option>
+                        <option value="N1">N1 - 上級 / Cao cấp</option>
+                    </select>
+                </div>
+
+                <!-- License Number -->
+                <div class="form-group">
+                    <label class="form-label" data-ja="運転免許番号" data-vi="Số bằng lái xe">運転免許番号</label>
+                    <input type="text" 
+                           id="regLicense"
+                           class="form-input"
+                           data-placeholder-ja="免許番号を入力"
+                           data-placeholder-vi="Nhập số bằng lái"
+                           placeholder="免許番号を入力">
+                </div>
+            </div>
 
             <!-- Submit -->
             <button type="submit" class="btn btn-primary" id="registerBtn">
-                <span data-ja="アカウントを作成" data-vi="Tạo tài khoản">アカウントを作成</span>
+                <span data-ja="アカウント作成" data-vi="Tạo tài khoản">アカウント作成</span>
             </button>
         </form>
 
         <!-- Login Link -->
-        <div class="auth-footer-link text-center">
-            <a href="/login"
-               data-ja="すでにアカウントをお持ちの方はこちら"
-               data-vi="Đã có tài khoản? Đăng nhập tại đây">すでにアカウントをお持ちの方はこちら</a>
+        <div class="divider">
+            <span data-ja="または" data-vi="hoặc">または</span>
+        </div>
+
+        <div class="text-center">
+            <span style="font-size: 0.9rem; color: var(--text-secondary);"
+                  data-ja="既にアカウントをお持ちですか？"
+                  data-vi="Đã có tài khoản?">既にアカウントをお持ちですか？</span>
+            <a href="/login" style="font-weight: 600; margin-left: 4px;"
+               data-ja="ログイン" data-vi="Đăng nhập">ログイン</a>
         </div>
     </div>
 </div>
