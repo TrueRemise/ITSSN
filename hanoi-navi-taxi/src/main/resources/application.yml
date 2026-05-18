@@ -54,7 +54,7 @@ jwt:
 # --- Google Maps API ---
 google:
   maps:
-    api-key: AIzaSyD9AOLzJarLIGW0b-eWq_JEVDf0IcmxE0U
+    api-key: ${GOOGLE_MAPS_API_KEY:}
 
 # --- Fare Configuration (VND) ---
 fare:

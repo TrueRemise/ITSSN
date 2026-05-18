@@ -18,8 +18,8 @@
     </a>
 
     <div class="landing-nav-links" aria-label="主要メニュー">
-        <a class="landing-nav-link" href="../../templates/customer/home.html" data-ja="ホーム" data-vi="Trang chủ">ホーム</a>
-        <a class="landing-nav-link active" href="../../templates/customer/booking.html" data-ja="予約する" data-vi="Đặt xe">予約する</a>
+        <a class="landing-nav-link" href="/customer/home" th:href="@{/customer/home}" data-ja="ホーム" data-vi="Trang chủ">ホーム</a>
+        <a class="landing-nav-link active" href="/customer/booking" th:href="@{/customer/booking}" data-ja="予約する" data-vi="Đặt xe">予約する</a>
         <a class="landing-nav-link" href="#history" data-ja="履歴" data-vi="Lịch sử">履歴</a>
     </div>
 
@@ -130,8 +130,15 @@
 <script th:src="@{/js/booking.js}"></script>
 <script>
     (function() {
+        const key = (GOOGLE_MAPS_API_KEY || '').trim();
+        window.gm_authFailure = handleBookingMapLoadError;
+        if (!key) {
+            handleBookingMapLoadError();
+            return;
+        }
+
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initBookingMap`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&libraries=places&callback=initBookingMap`;
         script.async = true;
         script.defer = true;
         script.onerror = handleBookingMapLoadError;

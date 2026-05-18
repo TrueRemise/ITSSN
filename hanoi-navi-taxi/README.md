@@ -21,6 +21,16 @@ mvn spring-boot:run
 ./mvnw spring-boot:run
 ```
 
+### Google Maps API Key
+Google Maps is optional for booting the app, but place search and route display require a valid browser key with Maps JavaScript API, Places API, and Directions API enabled.
+
+```bash
+export GOOGLE_MAPS_API_KEY=your_valid_google_maps_browser_key
+docker compose up --build
+```
+
+When the key is missing or rejected by Google, the customer screens show an in-app warning instead of loading the broken Google Maps widget.
+
 ### Access
 - **Web App**: http://localhost:8080
 - **Swagger API**: http://localhost:8080/swagger-ui.html

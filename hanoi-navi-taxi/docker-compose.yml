@@ -30,7 +30,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/navitaxi_db?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      GOOGLE_MAPS_API_KEY: AIzaSyD9AOLzJarLIGW0b-eWq_JEVDf0IcmxE0U
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY:-}
     depends_on:
       mysql:
         condition: service_healthy

@@ -51,6 +51,7 @@ function initMap() {
             if (place.geometry) setMarker('dest', place.geometry.location.lat(), place.geometry.location.lng());
         });
     }
+    updateMapFallback(false);
     loadUserInfo();
 }
 
@@ -71,6 +72,11 @@ function useCurrentLocation() {
     btn.disabled = true;
     navigator.geolocation.getCurrentPosition(
         (pos) => {
+            if (!window.google?.maps) {
+                document.getElementById('pickupInput').value = `${pos.coords.latitude}, ${pos.coords.longitude}`;
+                btn.disabled = false;
+                return;
+            }
             const geocoder = new google.maps.Geocoder();
             geocoder.geocode({ location: { lat: pos.coords.latitude, lng: pos.coords.longitude } }, (results, status) => {
                 const addr = (status === 'OK' && results[0]) ? results[0].formatted_address : `${pos.coords.latitude}, ${pos.coords.longitude}`;
@@ -90,6 +96,11 @@ function searchRoute() {
     const dest = document.getElementById('destinationInput').value.trim();
     const btn = document.getElementById('searchRouteBtn');
     if (!pickup || !dest) { alert(t('乗車地と降車地を入力してください', 'Vui lòng nhập điểm đón và điểm đến')); return; }
+    if (!directionsService) {
+        handleMapLoadError();
+        alert(t('Google Mapsを読み込めませんでした。APIキーとネットワーク設定を確認してください。', 'Không thể tải Google Maps. Vui lòng kiểm tra API key và kết nối mạng.'));
+        return;
+    }
     btn.classList.add('btn-loading'); btn.disabled = true;
     directionsService.route({ origin: pickup, destination: dest, travelMode: google.maps.TravelMode.DRIVING },
         (result, status) => {
@@ -145,6 +156,22 @@ function selectVehicle(el, type, fare, fareFormatted) {
     el.classList.add('selected');
     selectedVehicle = { type, fare, fareFormatted };
     document.getElementById('bookBtn').disabled = false;
+}
+
+function handleMapLoadError() {
+    updateMapFallback(true, t(
+        'Google Mapsを読み込めませんでした。APIキーとネットワーク設定を確認してください。',
+        'Không thể tải Google Maps. Vui lòng kiểm tra API key và kết nối mạng.'
+    ));
+    loadUserInfo();
+}
+
+function updateMapFallback(visible, message) {
+    const fallback = document.getElementById('mapFallback');
+    if (!fallback) return;
+
+    if (message) fallback.textContent = message;
+    fallback.classList.toggle('is-hidden', !visible);
 }
 
 function loadUserInfo() {

@@ -1473,6 +1473,25 @@ body.auth-page::before {
     overflow: hidden;
 }
 
+.landing-map-fallback {
+    background: rgba(255, 244, 188, 0.94);
+    border: 2px solid rgba(244, 189, 24, 0.5);
+    border-radius: var(--radius-lg);
+    color: var(--landing-ink);
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 1rem auto 0;
+    max-width: 780px;
+    padding: 0.85rem 1rem;
+    position: relative;
+    text-align: center;
+    z-index: 3;
+}
+
+.landing-map-fallback.is-hidden {
+    display: none;
+}
+
 .landing-hero {
     position: relative;
     min-height: calc(100vh - 76px);
